@@ -56,7 +56,7 @@ const updateSheets = async () => {
     });
     const sheets = google.sheets({ version: "v4", auth });
     const idList = (await knex.select("*").from("spreadsheets")).map((row) => row["spreadsheet_id"]);
-    const tariffs = (await knex.select("*").from("wb_box_tariffs")).map((row) => Object.values(row));
+    const tariffs = (await knex.select("*").orderBy('boxDeliveryAndStorageExpr').from("wb_box_tariffs")).map((row) => Object.values(row));
     idList.forEach(
         async (spreadsheetId) =>
             await sheets.spreadsheets.values.update({
